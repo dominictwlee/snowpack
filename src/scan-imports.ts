@@ -37,7 +37,7 @@ export type InstallTarget = {
 };
 
 function stripJsExtension(dep: string): string {
-  return dep.replace(/\.m?js$/i, '');
+  return dep.replace(/\.m?js$/i, ''); // otherwise, strip the extension
 }
 
 function createInstallTarget(specifier: string, all = true): InstallTarget {

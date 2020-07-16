@@ -286,3 +286,18 @@ export function replaceExt(
   const extToReplace = new RegExp(`\\${replaceExpandedExt ? expandedExt : baseExt}$`, 'i');
   return fileName.replace(extToReplace, newExtension);
 }
+
+/**
+ * This only removes `.js` from a web modules folder, which is the only known
+ * conflict. This was created to fix the “tippy.js problem”, where an npm
+ * package with an extension would fail to install because it would try and
+ * create both a `tippy.js` directory as well as a `tippy.js` file.
+ *
+ * This should only be used for web_modules, not source code (users should be
+ * able to name folders whatever they want)
+ */
+export function webModulesSubImportPath(filepath: string): string {
+  const dirs = filepath.split('/');
+  const file = dirs.pop() as string;
+  return [...dirs.map((path) => path.replace(/\.js$/i, 'js')), file].join('/');
+}
