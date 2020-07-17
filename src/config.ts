@@ -543,10 +543,11 @@ function normalizeConfig(config: SnowpackConfig): SnowpackConfig {
     config.proxy = {} as any;
   }
 
-  // remove leading/trailing slashes
+  config.buildOptions.baseUrl = config.buildOptions.baseUrl
+  .replace(/\/?$/, '/'); // force trailing slash
   config.buildOptions.metaDir = config.buildOptions.metaDir
-    .replace(/^(\/|\\)/g, '') // replace leading slash
-    .replace(/(\/|\\)$/g, ''); // replace trailing slash
+    .replace(/^\//, '') // replace leading slash
+    .replace(/\/$/, ''); // replace trailing slash
 
   if (config.devOptions.bundle === true && !config.scripts['bundle:*']) {
     handleConfigError(`--bundle set to true, but no "bundle:*" script/plugin was provided.`);
